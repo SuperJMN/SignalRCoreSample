@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ConsoleApp1;
+using Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using static System.Math;
@@ -31,7 +31,7 @@ namespace Server
 
         private void SendMessage(double alt)
         {
-            hubContext.Clients.All.SendAsync("SendAction", new Status() { Altitude = alt });
+            hubContext.Clients.All.SendAsync(Methods.StatusUpdate, new Status() { Altitude = alt });
         }
 
         private double CalcAltitude(long l)

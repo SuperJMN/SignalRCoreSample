@@ -2,40 +2,23 @@
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using ConsoleApp1;
+using Hubs;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace Client
+namespace ConsoleClient
 {
     class Program
     {
         static async Task Main(string[] args)
         {
-            var hub = new HubConnectionBuilder().WithUrl("http://localhost:49791/hubs/status")
+            var hub = new HubConnectionBuilder()
+                .WithUrl("http://localhost:49791/hubs/status")
                 .Build();
 
-            hub.On<Status>("SendAction", status => Console.WriteLine($"Altitude: {status.Altitude:F} m"));
-            var closedObservable = CreateClosedObservable(hub);
+            hub.On<Status>(Methods.StatusUpdate, status => Console.WriteLine($"Altitude: {status.Altitude:F} m"));
 
             await hub.StartAsync();
-            await closedObservable.FirstOrDefaultAsync();
-        }
-
-        private static IObservable<Unit> CreateClosedObservable(HubConnection hub)
-        {
-            return Observable.Create<Unit>(
-                observer =>
-                {
-                    Task Handler(Exception ex)
-                    {
-                        observer.OnNext(Unit.Default);
-                        return Task.CompletedTask;
-                    }
-
-                    hub.Closed += Handler;
-
-                    return () => hub.Closed -= Handler;
-                });
-        }
-    }
+            await hub.ClosedObservable().FirstOrDefaultAsync();
+        }   
+    }    
 }
