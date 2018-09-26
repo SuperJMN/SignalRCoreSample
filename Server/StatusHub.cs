@@ -2,7 +2,7 @@
 
 namespace Server
 {
-    public class MyHub : Hub
+    public class StatusHub : Hub
     {        
     }
 }

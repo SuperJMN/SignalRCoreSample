@@ -9,11 +9,11 @@ using static System.Math;
 
 namespace Server
 {
-    public class MyService : BackgroundService
+    public class StatusReporter : BackgroundService
     {
-        private readonly IHubContext<MyHub> hubContext;
+        private readonly IHubContext<StatusHub> hubContext;
 
-        public MyService(IHubContext<MyHub> hubContext)
+        public StatusReporter(IHubContext<StatusHub> hubContext)
         {
             this.hubContext = hubContext;
         }

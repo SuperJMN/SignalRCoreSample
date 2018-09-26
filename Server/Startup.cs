@@ -25,7 +25,7 @@ namespace Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddHostedService<MyService>();
+            services.AddHostedService<StatusReporter>();
             services.AddSignalR();
         }
 
@@ -42,7 +42,7 @@ namespace Server
             }
 
             app.UseHttpsRedirection();
-            app.UseSignalR(builder => builder.MapHub<MyHub>("/hubs/status"));
+            app.UseSignalR(builder => builder.MapHub<StatusHub>("/hubs/status"));
             app.UseMvc();
         }
     }
