@@ -140,6 +140,9 @@
     <PackageReference Include="ReactiveUI">
       <Version>8.7.2</Version>
     </PackageReference>
+    <PackageReference Include="Serilog">
+      <Version>2.7.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Hubs.csproj">

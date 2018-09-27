@@ -13,8 +13,6 @@ namespace UWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly HubConnection hub;
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -22,17 +20,11 @@ namespace UWP
             ServicePointManager.ServerCertificateValidationCallback +=
                 (sender, certificate, chain, sslPolicyErrors) => true;
 
-            hub = new HubConnectionBuilder()
+            var hub = new HubConnectionBuilder()
                 .WithUrl("http://localhost:49791/hubs/status")
                 .Build();
 
-            this.DataContext = new MainViewModel(hub);
-        }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            await hub.StartAsync();
-            base.OnNavigatedTo(e);            
-        }
+            DataContext = new MainViewModel(hub);
+        }        
     }
 }

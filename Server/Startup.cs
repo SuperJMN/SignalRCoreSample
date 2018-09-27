@@ -27,6 +27,7 @@ namespace Server
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddHostedService<StatusReporter>();
+            services.AddSingleton<IDrone, Drone>();
             services.AddSignalR();
         }
 

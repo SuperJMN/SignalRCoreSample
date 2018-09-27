@@ -10,24 +10,34 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DataContext="{d:DesignInstance local:MainViewModel}">
 
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <controls:HeaderedContentControl VerticalAlignment="Center" HorizontalAlignment="Center">
-            <controls:HeaderedContentControl.Header>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}">Altitude</TextBlock>
-            </controls:HeaderedContentControl.Header>
-            <controls:RadialGauge Value="{Binding Altitude}" Unit="meters" Maximum="220" NeedleBrush="Red" TrailBrush="LightCoral"/>
-        </controls:HeaderedContentControl>
-        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="1" FontSize="50">Bounce</Button>
-        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="2" FontSize="50">Emergency Land</Button>
+        <StackPanel>
+            <Grid>
+                <Button Content="Connect" Visibility="{Binding IsConnected, Converter={StaticResource BoolToVisibilityInverted}}" Command="{Binding ConnectCommand}" />
+                <Button Content="Disconnect" Visibility="{Binding IsConnected, Converter={StaticResource BoolToVisibility}}"  Command="{Binding DisconnectCommand}" />
+            </Grid>
+        </StackPanel>
+        <controls:AdaptiveGridView IsEnabled="{Binding IsConnected, Mode=OneWay}" Grid.Row="1" HorizontalAlignment="Stretch" DesiredWidth="80" VerticalAlignment="Stretch">
+            <controls:HeaderedContentControl VerticalAlignment="Center" HorizontalAlignment="Center">
+                <controls:HeaderedContentControl.Header>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}">Altitude</TextBlock>
+                </controls:HeaderedContentControl.Header>
+                <controls:RadialGauge Value="{Binding Altitude}" Unit="meters" Maximum="220" NeedleBrush="Red"
+                                      TrailBrush="LightCoral" />
+            </controls:HeaderedContentControl>
+            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    FontSize="50" Command="{Binding BounceCommand}">
+                Bounce
+            </Button>
+            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding LandCommand}" Content="Land"
+                    FontSize="50">
+            </Button>
+        </controls:AdaptiveGridView>
     </Grid>
+
 </Page>
