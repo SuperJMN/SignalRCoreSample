@@ -19,19 +19,7 @@ namespace Hubs
 
             var landing = cruise
                 .LastAsync()
-                .SelectMany(currentAltitude => Observable.Interval(interval).Select(i =>
-                {
-                    var h = currentAltitude - i;
-                    var groundSafeDistance = 15;
-
-                    if (h < groundSafeDistance)
-                    {
-                        var diff = 1 / (groundSafeDistance / h);
-                        return groundSafeDistance - diff;
-                    }
-
-                    return h;
-                }))
+                .SelectMany(currentAltitude => Observable.Interval(interval).Select(i => currentAltitude - i))
                 .TakeWhile(alt => alt >= 0);
 
             Altitude = takeOff
